@@ -3,7 +3,40 @@
 //  - Firebase mode (USE_LOCAL_DEMO=false): real-time sync via Firestore.
 //  - Local demo mode (USE_LOCAL_DEMO=true): saves in browser localStorage.
 
-import { firebaseConfig, ADMIN_PASSCODE, USE_LOCAL_DEMO } from "./firebase-config.js";
+import { firebaseConfig, ADMIN_PASSCODE, VIEWER_PASSCODE, USE_LOCAL_DEMO } from "./firebase-config.js";
+
+// ---------- Staff viewer gate ----------
+// Blocks the app until the visitor enters the shared staff passcode.
+// Accepted sessions are remembered in localStorage (per device) if they tick "Remember".
+(function viewerGate(){
+  const KEY = "nlc_viewer_ok_v1";
+  const gate  = document.getElementById("viewerGate");
+  const form  = document.getElementById("gateForm");
+  const input = document.getElementById("gateInput");
+  const err   = document.getElementById("gateError");
+  const remember = document.getElementById("gateRemember");
+  if (!gate || !form) return;
+
+  const already = localStorage.getItem(KEY) === "yes" || sessionStorage.getItem(KEY) === "yes";
+  if (already){ gate.classList.add("hidden"); return; }
+
+  gate.classList.remove("hidden");
+  document.body.classList.add("gated");
+  setTimeout(()=>input.focus(), 50);
+
+  form.addEventListener("submit",(e)=>{
+    e.preventDefault();
+    if (input.value === VIEWER_PASSCODE){
+      (remember.checked ? localStorage : sessionStorage).setItem(KEY, "yes");
+      gate.classList.add("hidden");
+      document.body.classList.remove("gated");
+    } else {
+      err.style.display = "block";
+      input.value = "";
+      input.focus();
+    }
+  });
+})();
 
 // ---------- Storage layer abstraction ----------
 let storage;
@@ -164,6 +197,16 @@ function bindUI() {
     renderBudget();
   });
   document.getElementById("btnNewExpense").addEventListener("click", ()=>openExpenseModal());
+  document.getElementById("btnExportBudget").addEventListener("click", ()=>{
+    // Reuse the Tasks-tab exporter but scope it to the currently-selected budget event.
+    const prior = state.selectedEventId;
+    state.selectedEventId = state.selectedBudgetEventId;
+    exportEventToExcel();
+    state.selectedEventId = prior;
+  });
+
+  // Clear activity (admin-only)
+  document.getElementById("btnClearActivity").addEventListener("click", clearActivity);
 
   // Modal close
   document.getElementById("modal").addEventListener("click",(e)=>{
@@ -179,12 +222,12 @@ function toggleAdmin(){
     state.isAdmin = false;
     document.body.classList.remove("is-admin");
     badge.classList.add("hidden");
-    btn.textContent = "Sign in as Pauline";
-    hint.textContent = "View-only · Pauline can edit";
+    btn.textContent = "Sign in as Admin";
+    hint.textContent = "View-only · Admin can edit";
     render();
     return;
   }
-  const code = prompt("Enter admin passcode (Pauline):");
+  const code = prompt("Enter admin passcode:");
   if (code === ADMIN_PASSCODE){
     state.isAdmin = true;
     document.body.classList.add("is-admin");
@@ -199,7 +242,7 @@ function toggleAdmin(){
 
 function requireAdmin(){
   if (!state.isAdmin){
-    alert("Please sign in as Pauline to make changes.");
+    alert("Please sign in as Admin to make changes.");
     return false;
   }
   return true;
@@ -466,6 +509,18 @@ async function loadNLCRoster(){
   render();
 }
 
+// ---------- Clear activity log ----------
+async function clearActivity(){
+  if (!requireAdmin()) return;
+  if (!state.activity.length){ alert("Activity log is already empty."); return; }
+  if (!confirm(`Clear all ${state.activity.length} activity entries? This cannot be undone.`)) return;
+  for (const a of [...state.activity]){
+    try { await storage.remove("activity", a.id); } catch {}
+  }
+  state.activity = [];
+  renderOverview();
+}
+
 // ---------- Team CRUD ----------
 async function addTeam(){
   if (!requireAdmin()) return;
@@ -525,7 +580,7 @@ async function autoFillRotation(){
   if (!eid){ alert("Pick an event first."); return; }
   const tasks = state.tasks.filter(t=>t.eventId===eid && (!t.assigned || t.assigned.length===0));
   if (tasks.length === 0){ alert("Every task already has at least one volunteer assigned."); return; }
-  if (!confirm(`Auto-assign ${tasks.length} unassigned task(s) for this event?\nPauline can still edit each one afterwards.`)) return;
+  if (!confirm(`Auto-assign ${tasks.length} unassigned task(s) for this event?\nAdmin can still edit each one afterwards.`)) return;
 
   const CAP = 3; // don't put more than 3 tasks on any single person during auto-fill
   let assigned = 0;

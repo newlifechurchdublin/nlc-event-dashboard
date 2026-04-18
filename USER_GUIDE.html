@@ -1,0 +1,393 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<title>NLC Event Dashboard — User Guide</title>
+<style>
+  @page { size: A4; margin: 18mm 16mm; }
+  body {
+    font-family: "Segoe UI", Calibri, Arial, sans-serif;
+    color: #2a2a2a;
+    line-height: 1.55;
+    max-width: 780px;
+    margin: 24px auto;
+    padding: 0 20px;
+    font-size: 11pt;
+  }
+  .cover {
+    text-align: center;
+    padding: 40px 20px 30px;
+    border-bottom: 3px solid #2d6a4f;
+    margin-bottom: 24px;
+  }
+  .cover h1 {
+    color: #1b4332;
+    font-size: 26pt;
+    margin: 0 0 6px;
+    letter-spacing: 0.3px;
+  }
+  .cover .sub {
+    color: #2d6a4f;
+    font-size: 14pt;
+    margin: 0 0 14px;
+  }
+  .cover .for {
+    color: #6c757d;
+    font-size: 11pt;
+    font-style: italic;
+  }
+  h2 {
+    color: #1b4332;
+    border-bottom: 2px solid #d8e6dc;
+    padding-bottom: 5px;
+    margin-top: 32px;
+    font-size: 16pt;
+    page-break-after: avoid;
+  }
+  h3 {
+    color: #2d6a4f;
+    margin-top: 20px;
+    font-size: 12.5pt;
+    page-break-after: avoid;
+  }
+  p { margin: 8px 0; }
+  ul, ol { margin: 6px 0 10px; padding-left: 22px; }
+  li { margin: 4px 0; }
+  .callout {
+    background: #f1f8f3;
+    border-left: 4px solid #2d6a4f;
+    padding: 10px 14px;
+    margin: 14px 0;
+    border-radius: 4px;
+  }
+  .callout.warn {
+    background: #fff8e6;
+    border-left-color: #d4a017;
+  }
+  .credentials {
+    background: #f8f9fa;
+    border: 1px solid #d8e6dc;
+    padding: 14px 18px;
+    border-radius: 6px;
+    margin: 16px 0;
+  }
+  .credentials b { color: #1b4332; }
+  code {
+    background: #f1f1f1;
+    padding: 1px 6px;
+    border-radius: 3px;
+    font-family: "Consolas", "Courier New", monospace;
+    font-size: 10.5pt;
+    color: #1b4332;
+  }
+  .btn-name {
+    display: inline-block;
+    background: #2d6a4f;
+    color: #fff;
+    padding: 1px 8px;
+    border-radius: 4px;
+    font-size: 10pt;
+    font-weight: 600;
+  }
+  .btn-name.outline {
+    background: #fff;
+    color: #2d6a4f;
+    border: 1px solid #2d6a4f;
+  }
+  .step-list li { margin-bottom: 8px; }
+  .workflow {
+    background: #fdf9f0;
+    border: 1px dashed #d4a017;
+    padding: 14px 18px;
+    border-radius: 6px;
+    margin: 16px 0;
+  }
+  .workflow ol { padding-left: 20px; }
+  footer {
+    margin-top: 40px;
+    text-align: center;
+    color: #6c757d;
+    font-size: 10pt;
+    border-top: 1px solid #e0e0e0;
+    padding-top: 12px;
+  }
+  .toc {
+    background: #f8f9fa;
+    padding: 14px 20px;
+    border-radius: 6px;
+    margin: 20px 0 30px;
+  }
+  .toc h3 { margin-top: 0; color: #1b4332; }
+  .toc ol { margin: 0; padding-left: 22px; }
+  .toc a { color: #2d6a4f; text-decoration: none; }
+</style>
+</head>
+<body>
+
+<div class="cover">
+  <h1>New Life Church Dublin</h1>
+  <div class="sub">Event Planning &amp; Coordination Dashboard</div>
+  <div class="sub" style="font-size:13pt">User Guide</div>
+  <div class="for">Prepared for Pastor Mathew and Sister Pauline</div>
+</div>
+
+<div class="credentials">
+  <p><b>Your dashboard link (share with the team):</b><br>
+  <code>https://newlifechurchdublin.github.io/nlc-event-dashboard/</code></p>
+  <p><b>Staff passcode (for the team to view):</b> <code>Nlc2026</code></p>
+  <p><b>Admin passcode (for Sister Pauline only, to edit):</b> <code>Nlc@event</code></p>
+  <p style="margin-bottom:0"><b>Works on:</b> any modern web browser — laptop, tablet, or phone. No installation required. The dashboard is also responsive and looks great on a phone.</p>
+</div>
+
+<div class="toc">
+  <h3>What's in this guide</h3>
+  <ol>
+    <li>Introduction — what this dashboard does</li>
+    <li>Getting started — opening the link, view-only vs admin</li>
+    <li>Overview tab — the home page</li>
+    <li>Events tab — creating and managing events</li>
+    <li>Tasks &amp; Teams tab — assigning volunteers, the heart of the app</li>
+    <li>People tab — teams and volunteers</li>
+    <li>Budget tab — tracking event spend</li>
+    <li>A typical event — step-by-step workflow</li>
+    <li>Tips &amp; common questions</li>
+  </ol>
+</div>
+
+<h2>1. Introduction</h2>
+<p>This dashboard was built to make planning church events simpler. It helps you:</p>
+<ul>
+  <li><b>Plan events</b> — couples meetings, Sunday celebrations, baptisms, Christmas programmes, and more.</li>
+  <li><b>Delegate tasks to the right team</b> — media, music, ushering, kids, decoration, food, and any custom team you create.</li>
+  <li><b>Rotate volunteers fairly</b> — the app suggests people who haven't served recently, so the same few aren't always doing everything.</li>
+  <li><b>Track the budget</b> — planned vs actual spend, per event.</li>
+  <li><b>Share the plan instantly</b> — copy a WhatsApp-ready summary, download an Excel sheet, or print a clean list.</li>
+</ul>
+<p>Everything saves automatically to the cloud. When Pauline adds or changes anything, everyone viewing the link sees the update within a few seconds — no refresh needed.</p>
+
+<h2>2. Getting started</h2>
+
+<h3>Opening the dashboard</h3>
+<ol class="step-list">
+  <li>Open any web browser (Chrome, Safari, Edge, Firefox — all work).</li>
+  <li>Go to <code>https://newlifechurchdublin.github.io/nlc-event-dashboard/</code></li>
+  <li>The dashboard opens on the <b>Overview</b> tab. You will see the church logo at the top left and a picture of Pastor and Pauline on the top right.</li>
+</ol>
+
+<h3>Two passcodes — Staff and Admin</h3>
+<p>The dashboard uses two levels of access:</p>
+<ul>
+  <li><b>Staff passcode</b> (<code>Nlc2026</code>) — required to <i>view</i> anything. Share this with the church team. Once entered, the device remembers it so they don't have to type it every time.</li>
+  <li><b>Admin passcode</b> (<code>Nlc@event</code>) — only Sister Pauline has this. It unlocks <i>editing</i>: adding events, assigning volunteers, marking tasks done, recording expenses. Prevents accidental changes.</li>
+</ul>
+
+<h3>Opening the app — first time</h3>
+<ol class="step-list">
+  <li>Team member opens <code>https://newlifechurchdublin.github.io/nlc-event-dashboard/</code>.</li>
+  <li>A welcome screen asks for the <b>staff passcode</b>. Enter <code>Nlc2026</code> and click <b>Continue</b>.</li>
+  <li>If they tick <b>"Remember this device"</b>, they won't be asked again on that phone/laptop.</li>
+  <li>The dashboard opens in view-only mode.</li>
+</ol>
+
+<h3>Signing in as Admin (Pauline only)</h3>
+<ol class="step-list">
+  <li>Click <span class="btn-name outline">Sign in as Admin</span> at the top right.</li>
+  <li>Enter the admin passcode: <code>Nlc@event</code></li>
+  <li>A green badge <span class="btn-name">Signed in: Admin</span> appears. Add/Edit/Delete buttons show up throughout the app.</li>
+  <li>When finished, click <span class="btn-name outline">Sign out</span> to lock editing again.</li>
+</ol>
+
+<div class="callout warn">
+  <b>Please keep both passcodes private.</b> The staff passcode can be shared within the church team; the admin passcode should stay with Pauline. If either is shared by mistake, ask Omprakash to change it — it's a one-minute fix.
+</div>
+
+<h2>3. Overview tab — your home page</h2>
+<p>The Overview gives you the big picture at a glance. It shows four coloured cards across the top:</p>
+<ul>
+  <li><b>Upcoming Events</b> — number of events dated today or later.</li>
+  <li><b>Tasks To Do</b> — tasks across all events that aren't marked done yet.</li>
+  <li><b>Volunteers</b> — total people in your roster.</li>
+  <li><b>Total Spend</b> — actual spend across all events in euros.</li>
+</ul>
+<p>Below the cards:</p>
+<ul>
+  <li><b>Next Event</b> — the very next event on the calendar, with its task count and how many volunteer assignments have been made.</li>
+  <li><b>Recent Activity</b> — the last ten changes made, so you always know what's been going on. Admin can click <span class="btn-name outline">Clear activity</span> to wipe the log when it gets long.</li>
+</ul>
+
+<h2>4. Events tab — creating and managing events</h2>
+<p>This is where you add, edit, and delete events.</p>
+
+<h3>Creating a new event</h3>
+<ol class="step-list">
+  <li>Make sure you are signed in as admin.</li>
+  <li>Click the <span class="btn-name">+ New Event</span> button.</li>
+  <li>Fill in:
+    <ul>
+      <li><b>Name</b> — e.g. <i>Christmas Celebration 2026</i> or <i>Couples Meeting — April</i>.</li>
+      <li><b>Date</b> — pick from the calendar.</li>
+      <li><b>Location</b> — defaults to "Church". Change if it's somewhere else.</li>
+      <li><b>Description</b> — a one-liner about the event (optional).</li>
+    </ul>
+  </li>
+  <li>Click <span class="btn-name">Save</span>.</li>
+</ol>
+
+<h3>Viewing and managing events</h3>
+<p>Each event shows as a card with its date, location, description, and task progress (<i>3/10 tasks complete</i>). On each card:</p>
+<ul>
+  <li><span class="btn-name outline">Open tasks</span> — jumps to the Tasks &amp; Teams tab for that event.</li>
+  <li><span class="btn-name outline">Edit</span> — change event details.</li>
+  <li><b>Delete</b> — removes the event <b>and</b> all its tasks and expenses. The app will ask you to confirm first.</li>
+</ul>
+
+<h2>5. Tasks &amp; Teams tab — the main workspace</h2>
+<p>This is where most of the planning happens. You'll use it for every event.</p>
+
+<h3>Step 1 — Pick an event</h3>
+<p>Use the dropdown at the top right of the tab to select which event you're planning.</p>
+
+<h3>Step 2 — Add tasks</h3>
+<p>You have two ways to add tasks:</p>
+<ol class="step-list">
+  <li><b>From the standard list</b> (recommended for most events):
+    <ul>
+      <li>Click <span class="btn-name outline">Add from standard list…</span></li>
+      <li>A checklist appears with common church-event tasks: decoration, food, media, ushering, kids, cleanup, and more.</li>
+      <li>Tick only the ones you need. You can click <span class="btn-name outline">Clear all</span> first, then tick selectively.</li>
+      <li>Click <span class="btn-name">Add selected</span>. The tasks appear on the board instantly.</li>
+    </ul>
+  </li>
+  <li><b>Add a custom task</b>:
+    <ul>
+      <li>Click <span class="btn-name">+ Add Task</span>.</li>
+      <li>Enter the title, pick a category, optionally add estimated hours and notes.</li>
+      <li>Click <span class="btn-name">Save</span>.</li>
+    </ul>
+  </li>
+</ol>
+
+<h3>Step 3 — Assign volunteers to each task</h3>
+<p>Every task appears as a card. On each card:</p>
+<ul>
+  <li>The task category is shown as a coloured tag (e.g. <i>Media</i>, <i>Food</i>, <i>Decoration</i>).</li>
+  <li>A <b>Rotation suggestion</b> shows up to three people who haven't served recently. Click <span class="btn-name outline">Apply</span> to assign the top suggestion in one click.</li>
+  <li>The <b>Assign…</b> dropdown lets you pick anyone from the roster. For media/music/ushering/kids tasks, members of that team appear first, with others grouped below.</li>
+  <li>Each person's name shows how many tasks they already have <i>in this event</i> (e.g. "Karen · 2 tasks"). This helps avoid overloading.</li>
+  <li>Click the <b>×</b> next to an assigned name to remove them.</li>
+  <li>Click <span class="btn-name outline">Mark done</span> when the task is completed during the event.</li>
+</ul>
+
+<h3>Step 4 — Auto-fill rotation (optional but handy)</h3>
+<p>Click <span class="btn-name outline">Auto-fill rotation</span> at the top of the tab. The app will go through every task that has no volunteer yet and assign the best rotation pick — while making sure no one gets more than 3 tasks for this event. Pauline can always adjust afterwards.</p>
+
+<h3>Step 5 — Share the plan</h3>
+<p>A <b>Summary</b> card appears at the top once tasks are added. It shows:</p>
+<ul>
+  <li>Total tasks, how many are assigned, how many still need a volunteer, how many are done.</li>
+  <li>All tasks grouped by category, with the volunteer names under each.</li>
+</ul>
+<p>Three buttons:</p>
+<ul>
+  <li><span class="btn-name">Copy for WhatsApp</span> — copies a ready-to-paste message for the church WhatsApp group, with the event name, date, tasks, and assigned names grouped neatly.</li>
+  <li><span class="btn-name outline">Download Excel</span> — saves an <code>.xlsx</code> file with three sheets: Tasks, People (per-person task count), and Budget.</li>
+  <li><span class="btn-name outline">Print</span> — opens a printable version of the summary in a new tab.</li>
+</ul>
+
+<h2>6. People tab — teams and volunteers</h2>
+
+<h3>Pre-configured teams</h3>
+<p>On first use, the dashboard has five default teams: <b>Leadership, Media, Music, Ushering, Kids</b>. Pastor and Pauline are automatically part of every team.</p>
+
+<h3>Loading the NLC roster in one click</h3>
+<p>Click <span class="btn-name outline">Load NLC Team</span> to add everyone from the pre-built NLC roster (Kingson, Karen, Naveen, Tabitha, and so on). People already in the list are skipped automatically, so it's safe to click more than once.</p>
+
+<h3>Adding someone yourself</h3>
+<ol class="step-list">
+  <li>Click <span class="btn-name">+ Add Person</span>.</li>
+  <li>Enter the name, tick the teams they belong to (a person can be in more than one), add a note if helpful.</li>
+  <li>Click <span class="btn-name">Save</span>.</li>
+</ol>
+
+<h3>Adding or removing a team</h3>
+<ul>
+  <li><span class="btn-name outline">+ Add Team</span> — create a new team like <i>Prayer</i>, <i>Youth</i>, or <i>Kitchen</i>.</li>
+  <li>Click the <b>×</b> next to a custom team name in the filter bar to delete it (default teams can't be deleted).</li>
+</ul>
+
+<h3>Filtering by team</h3>
+<p>The row of team chips (All, Leadership, Media, …) at the top of the People tab filters the list. Click a chip to see only that team. Each chip shows the number of people currently in it.</p>
+
+<h3>Load indicator</h3>
+<p>Each person's card shows a small coloured number — how many tasks they have in the currently selected event. Green means light load, yellow means moderate, red means they're busy. A simple way to spot who's being asked to do too much.</p>
+
+<h2>7. Budget tab — planned vs actual spend</h2>
+<ol class="step-list">
+  <li>Pick an event from the dropdown at the top right.</li>
+  <li>Three totals show across the top: <b>Planned</b>, <b>Actual</b>, <b>Remaining</b>.</li>
+  <li>Click <span class="btn-name">+ Add Expense</span> to record a cost:
+    <ul>
+      <li><b>Item</b> — what was bought (e.g. "Cake", "Decoration supplies").</li>
+      <li><b>Category</b> — Decoration, Food, Shopping, Hospitality, Kids, Media, or Other.</li>
+      <li><b>Paid by</b> — who paid (for reimbursement tracking).</li>
+      <li><b>Planned</b> and <b>Actual</b> amounts in euros.</li>
+    </ul>
+  </li>
+  <li>Edit or delete any row at any time using the buttons on the right.</li>
+  <li>Click <span class="btn-name outline">Download Excel</span> right here on the Budget tab for a full report of the selected event (Tasks, People, and Budget sheets).</li>
+</ol>
+<p>The same Excel report is also available from the <b>Tasks</b> tab's Summary card.</p>
+
+<h2>8. A typical event — step-by-step workflow</h2>
+<div class="workflow">
+<b>Planning a Christmas Celebration, start to finish:</b>
+<ol>
+  <li>Sign in as Admin.</li>
+  <li><b>Events tab</b> → <span class="btn-name">+ New Event</span> → enter "Christmas Celebration 2026", date 25 December 2026, location Church.</li>
+  <li><b>Tasks &amp; Teams tab</b> → select the new event from the dropdown.</li>
+  <li>Click <span class="btn-name outline">Add from standard list…</span> → tick the tasks relevant (venue decoration, meal preparation, worship, photography, kids ministry, cleanup, and so on).</li>
+  <li>Click <span class="btn-name outline">Auto-fill rotation</span> → the app assigns one volunteer per task, fairly rotated.</li>
+  <li>Review each task card. Adjust assignments manually where you want specific people (e.g. "Karen should lead worship this time").</li>
+  <li><b>Budget tab</b> → add planned expenses: decoration ₹X, food ₹Y, cake ₹Z.</li>
+  <li>Click <span class="btn-name">Copy for WhatsApp</span> → paste into the church group chat to let everyone see their roles.</li>
+  <li>On the day, open the dashboard on a phone → tick <span class="btn-name outline">Mark done</span> on each task as it's completed.</li>
+  <li>After the event, go back to <b>Budget</b> and fill in <b>Actual</b> amounts for each expense. Done.</li>
+</ol>
+</div>
+
+<h2>9. Tips &amp; common questions</h2>
+
+<h3>Can more than one person edit at the same time?</h3>
+<p>Yes. Pauline can be on her laptop while another admin helper is on a phone — all changes sync live across everyone viewing the dashboard, usually within 1–2 seconds.</p>
+
+<h3>Does it work on a phone?</h3>
+<p>Yes — the layout adjusts to small screens. Great for updating task status during an event.</p>
+
+<h3>What if someone isn't in the list yet?</h3>
+<p>Sign in as Admin, go to <b>People</b>, click <span class="btn-name">+ Add Person</span>. Once added, they can be assigned to tasks in any event, past or future.</p>
+
+<h3>Can I delete a mistake?</h3>
+<p>Yes — every event, task, person, and expense has a Delete button (visible when signed in as admin). The app asks to confirm first. Be aware that deleting an event removes all its tasks and expenses.</p>
+
+<h3>What if I want a new team (e.g. Prayer or Youth)?</h3>
+<p>On the People tab, click <span class="btn-name outline">+ Add Team</span> and give it a name. The new team will appear everywhere — in the filter bar, in person profiles, and throughout the app.</p>
+
+<h3>What about the rotation suggestion — does it always pick the same person?</h3>
+<p>No. It looks at who was assigned in the most recent past event (those people drop down the list) and who has done the fewest tasks overall (they move up). For team-specific tasks like Media or Music, it also prefers people in that team. Pauline's manual choice always takes priority — the suggestion is just a helpful hint.</p>
+
+<h3>Is our data safe?</h3>
+<p>Yes — the data lives in Google's Firebase cloud. Only people with the dashboard link can view it, and only someone with the passcode can edit. The link is not listed publicly anywhere.</p>
+
+<h3>Is there help available inside the app?</h3>
+<p>Yes — there's a <b>Help</b> tab at the top of the dashboard itself. It contains the same instructions as this document and is updated automatically whenever a new feature is added. That way the help is always in sync with the latest version of the app.</p>
+
+<h3>Who do I ask for help?</h3>
+<p>Please reach out to Omprakash — he built this dashboard and is happy to add features, adjust teams, or help with anything that isn't working the way you expect.</p>
+
+<footer>
+  <p><b>New Life Church Dublin — Event Dashboard User Guide</b><br>
+  Built with love for Pastor Mathew and Sister Pauline.</p>
+</footer>
+
+</body>
+</html>

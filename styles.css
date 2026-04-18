@@ -281,6 +281,29 @@ body.is-admin .admin-only{display:inline-block}
 .load-badge.load-med {background:#fff1c4; color:#a26a00}
 .load-badge.load-high{background:#ffd5d0; color:#b0281d}
 
+/* VIEWER GATE (staff passcode) */
+.gate{
+  position:fixed; inset:0; z-index:100;
+  background:linear-gradient(135deg,#e8f4e3,#fff6de);
+  display:flex; align-items:center; justify-content:center;
+  padding:20px;
+}
+.gate-box{
+  background:#fff; border-radius:18px; padding:28px 26px;
+  width:min(400px,94vw); text-align:center;
+  box-shadow:0 20px 60px rgba(30,60,20,.2);
+}
+.gate-logo{width:64px;height:64px;object-fit:contain;margin-bottom:8px}
+.gate-box h2{color:var(--nlc-green-dark);margin:4px 0 0}
+.gate-box form{display:flex;flex-direction:column;gap:8px;margin-top:14px}
+body.gated{overflow:hidden}
+
+/* HELP TAB */
+.help-doc{line-height:1.55}
+.help-doc h3{color:var(--nlc-green-dark);margin-top:18px;font-size:15px}
+.help-doc ul, .help-doc ol{padding-left:22px;margin:6px 0}
+.help-doc li{margin:4px 0}
+
 /* Delete-team × next to a filter chip */
 .filter-chip-wrap{position:relative; display:inline-flex; align-items:center}
 .filter-del{
@@ -288,4 +311,46 @@ body.is-admin .admin-only{display:inline-block}
   font-size:14px; padding:0 6px; cursor:pointer; line-height:1;
 }
 .filter-del:hover{color:var(--danger)}
+
+/* ============ MOBILE POLISH ============ */
+@media (max-width:700px){
+  .topbar{padding:12px 14px; flex-wrap:wrap; gap:10px}
+  .brand-text h1{font-size:17px}
+  .brand-text p{font-size:12px}
+  .logo{width:42px;height:42px}
+  .pastor-pic{width:42px;height:42px;border-width:2px}
+  .brand-right{gap:8px}
+  #authHint{display:none}       /* hide hint on phones, button is enough */
+
+  .tabs{padding:6px 10px 0; gap:2px}
+  .tab-btn{padding:10px 12px; font-size:13px}
+
+  .content{padding:14px}
+  .card{padding:14px;border-radius:12px;margin-bottom:14px}
+  .card h2{font-size:16px}
+
+  .cards{grid-template-columns:repeat(2,1fr); gap:10px}
+  .stat-val{font-size:22px}
+
+  .event-grid, .task-board, .people-grid{grid-template-columns:1fr}
+  .budget-summary{grid-template-columns:repeat(3,1fr); gap:8px}
+  .budget-summary>div{padding:10px}
+  .budget-summary>div>div{font-size:16px}
+
+  .row-between{gap:8px}
+  .btn{padding:10px 12px; font-size:13px}
+  select.input{font-size:14px}
+
+  /* Modal — full-height friendly on small screens */
+  .modal-box{padding:16px;border-radius:14px;width:100%;max-height:94vh}
+  .modal-form .row{flex-direction:column; gap:8px}
+
+  /* Table on phone — allow horizontal scroll rather than cramping */
+  .table{font-size:13px}
+  .table th,.table td{padding:6px 8px}
+}
+@media (max-width:420px){
+  .cards{grid-template-columns:1fr}
+  .budget-summary{grid-template-columns:1fr}
+}
 

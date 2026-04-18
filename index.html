@@ -21,9 +21,9 @@
   <div class="brand-right">
     <img src="Pastorandfamily.png" alt="Pastor &amp; Pauline" class="pastor-pic" />
     <div id="authArea" class="auth-area">
-      <span id="authHint" class="muted small">View-only · Pauline can edit</span>
-      <button id="adminBtn" class="btn btn-outline">Sign in as Pauline</button>
-      <span id="adminBadge" class="badge hidden">Signed in: Pauline</span>
+      <span id="authHint" class="muted small">View-only · Admin can edit</span>
+      <button id="adminBtn" class="btn btn-outline">Sign in as Admin</button>
+      <span id="adminBadge" class="badge hidden">Signed in: Admin</span>
     </div>
   </div>
 </header>
@@ -35,6 +35,7 @@
   <button class="tab-btn" data-tab="tasks">Tasks &amp; Teams</button>
   <button class="tab-btn" data-tab="people">People</button>
   <button class="tab-btn" data-tab="budget">Budget</button>
+  <button class="tab-btn" data-tab="help">Help</button>
 </nav>
 
 <main class="content">
@@ -54,7 +55,10 @@
     </div>
 
     <div class="card">
-      <h2>Recent Activity</h2>
+      <div class="row-between">
+        <h2>Recent Activity</h2>
+        <button id="btnClearActivity" class="btn btn-ghost small admin-only" title="Clear the activity log">Clear activity</button>
+      </div>
       <ul id="activityFeed" class="feed"><li class="muted">No recent activity.</li></ul>
     </div>
   </section>
@@ -147,11 +151,70 @@
         <div><span class="muted small">Actual</span><div id="sumActual">€0</div></div>
         <div><span class="muted small">Remaining</span><div id="sumRemaining">€0</div></div>
       </div>
-      <button id="btnNewExpense" class="btn btn-primary admin-only">+ Add Expense</button>
+      <div class="row-between tight">
+        <button id="btnNewExpense" class="btn btn-primary admin-only">+ Add Expense</button>
+        <button id="btnExportBudget" class="btn btn-outline" title="Download a full Excel report for this event (Tasks, People, Budget)">Download Excel</button>
+      </div>
       <table class="table">
         <thead><tr><th>Item</th><th>Category</th><th>Planned</th><th>Actual</th><th>Paid by</th><th></th></tr></thead>
         <tbody id="expenseRows"></tbody>
       </table>
+    </div>
+  </section>
+
+  <!-- HELP -->
+  <section id="tab-help" class="tab-panel">
+    <div class="card help-doc">
+      <h2>How to use this dashboard</h2>
+      <p class="muted small">A quick guide for staff and admin. This page updates automatically as we add features.</p>
+
+      <h3>1. Two modes — viewer and admin</h3>
+      <p>Everyone on the team signs in with a <b>staff passcode</b> to view. Only the <b>admin</b> (Sister Pauline) can add, edit, and delete — she signs in separately using the admin passcode.</p>
+      <ul>
+        <li>Staff sign-in lets you see events, tasks, people, and budget.</li>
+        <li>Admin sign-in shows <b>+ Add</b>, <b>Edit</b>, and <b>Delete</b> buttons across every tab.</li>
+        <li>Click <b>Sign out</b> in the top-right to lock the admin side again.</li>
+      </ul>
+
+      <h3>2. Overview tab</h3>
+      <p>The home page shows four stat cards (upcoming events, open tasks, volunteers, total spend), the next event, and a live feed of recent changes. Admins can clear the activity log with the <b>Clear activity</b> button.</p>
+
+      <h3>3. Events tab</h3>
+      <ul>
+        <li><b>+ New Event</b> — name, date, location, description.</li>
+        <li>Each event card shows date, task progress, and buttons to open tasks, edit, or delete.</li>
+        <li>Deleting an event also removes its tasks and expenses (it asks first).</li>
+      </ul>
+
+      <h3>4. Tasks &amp; Teams tab — the main workspace</h3>
+      <ol>
+        <li>Pick an event from the dropdown.</li>
+        <li>Click <b>Add from standard list…</b> to pick common tasks (decoration, food, media, cleanup, etc.) in one go.</li>
+        <li>Or click <b>+ Add Task</b> for a custom one.</li>
+        <li>On each task card, use the <b>Assign…</b> dropdown to add volunteers. Team members for that category show first.</li>
+        <li>A <b>Rotation suggestion</b> shows people who haven't served recently — click <b>Apply</b> to accept it.</li>
+        <li>Click <b>Auto-fill rotation</b> to assign all empty tasks automatically (caps 3 tasks per person).</li>
+        <li>In the <b>Summary</b> card: <b>Copy for WhatsApp</b>, <b>Download Excel</b>, or <b>Print</b>.</li>
+        <li>Click <b>Mark done</b> on the day as tasks are completed.</li>
+      </ol>
+
+      <h3>5. People tab</h3>
+      <ul>
+        <li>Click <b>Load NLC Team</b> once to import the whole roster. Safe to click again later — duplicates are skipped.</li>
+        <li><b>+ Add Person</b> — enter name and tick the teams they belong to.</li>
+        <li><b>+ Add Team</b> — create custom teams like <i>Prayer</i>, <i>Youth</i>, <i>Kitchen</i>.</li>
+        <li>Filter chips at the top show how many people are in each team.</li>
+        <li>The coloured number on each person's card shows their load in the selected event (green = light, red = busy).</li>
+      </ul>
+
+      <h3>6. Budget tab</h3>
+      <p>Pick an event, add expenses (item, category, planned €, actual €, paid by). The three totals at the top show planned vs actual vs remaining. Click <b>Download Excel</b> for a full report.</p>
+
+      <h3>7. On your phone</h3>
+      <p>The dashboard works in any mobile browser. Handy during an event for ticking tasks done, adding last-minute expenses, or checking who is doing what.</p>
+
+      <h3>Questions or help</h3>
+      <p>Reach out to Omprakash — he can add features, adjust teams, or fix anything that isn't working the way you expect.</p>
     </div>
   </section>
 
@@ -160,6 +223,25 @@
 <footer class="footer">
   <small>© New Life Church Dublin · Built with love for Pastor &amp; Pauline</small>
 </footer>
+
+<!-- VIEWER GATE (staff passcode) -->
+<div id="viewerGate" class="gate hidden">
+  <div class="gate-box">
+    <img src="logo.png" alt="NLC" class="gate-logo" />
+    <h2>New Life Church Dublin</h2>
+    <p class="muted">Event Planning Dashboard</p>
+    <p class="small" style="margin-top:14px">Please enter the staff passcode to continue.</p>
+    <form id="gateForm">
+      <input type="password" id="gateInput" class="input" placeholder="Staff passcode" autocomplete="current-password" required />
+      <label class="check-row" style="margin-top:8px">
+        <input type="checkbox" id="gateRemember" checked />
+        <span class="small muted">Remember this device</span>
+      </label>
+      <button class="btn btn-primary" style="width:100%;margin-top:12px">Continue</button>
+      <p id="gateError" class="small" style="color:var(--danger);display:none;margin-top:8px">Incorrect passcode, please try again.</p>
+    </form>
+  </div>
+</div>
 
 <!-- MODAL -->
 <div id="modal" class="modal hidden">
