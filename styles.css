@@ -189,6 +189,8 @@ body{
 
 .admin-only{display:none}
 body.is-admin .admin-only{display:inline-block}
+/* Stat cards need flex, tab buttons stay inline-block */
+body.is-admin .card.stat.admin-only{display:flex}
 
 /* Stat sub-text */
 .stat-sub{display:block; margin-top:2px}

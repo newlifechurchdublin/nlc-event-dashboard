@@ -235,15 +235,18 @@ function toggleAdmin(){
   const badge = document.getElementById("adminBadge");
   const hint  = document.getElementById("authHint");
   if (state.isAdmin){
-    // Full sign-out: clear admin state AND the staff passcode, then reload
-    // so the welcome gate appears again. Keeps the dashboard properly locked
-    // when admin steps away from a shared device.
     state.isAdmin = false;
     document.body.classList.remove("is-admin");
     badge.classList.add("hidden");
     btn.textContent = "Sign in as Admin";
     hint.textContent = "View-only · Admin can edit";
-    lockDashboard();
+    // If admin was viewing the Budget tab (admin-only), switch back to Overview
+    // so they aren't left staring at a now-hidden panel.
+    const activeTab = document.querySelector(".tab-btn.active")?.dataset.tab;
+    if (activeTab === "budget"){
+      document.querySelector('.tab-btn[data-tab="overview"]').click();
+    }
+    render();
     return;
   }
   const code = prompt("Enter admin passcode:");
