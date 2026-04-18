@@ -1,0 +1,178 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>New Life Church Dublin — Event Dashboard</title>
+<link rel="icon" href="logo.png" />
+<link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+
+<!-- HEADER -->
+<header class="topbar">
+  <div class="brand">
+    <img src="logo.png" alt="NLC logo" class="logo" />
+    <div class="brand-text">
+      <h1>New Life Church Dublin</h1>
+      <p>Event Planning &amp; Coordination Dashboard</p>
+    </div>
+  </div>
+  <div class="brand-right">
+    <img src="Pastorandfamily.png" alt="Pastor &amp; Pauline" class="pastor-pic" />
+    <div id="authArea" class="auth-area">
+      <span id="authHint" class="muted small">View-only · Pauline can edit</span>
+      <button id="adminBtn" class="btn btn-outline">Sign in as Pauline</button>
+      <span id="adminBadge" class="badge hidden">Signed in: Pauline</span>
+    </div>
+  </div>
+</header>
+
+<!-- TABS -->
+<nav class="tabs">
+  <button class="tab-btn active" data-tab="overview">Overview</button>
+  <button class="tab-btn" data-tab="events">Events</button>
+  <button class="tab-btn" data-tab="tasks">Tasks &amp; Teams</button>
+  <button class="tab-btn" data-tab="people">People</button>
+  <button class="tab-btn" data-tab="budget">Budget</button>
+</nav>
+
+<main class="content">
+
+  <!-- OVERVIEW -->
+  <section id="tab-overview" class="tab-panel active">
+    <div class="cards">
+      <div class="card stat"><span class="stat-label">Upcoming Events</span><span id="stUpcoming" class="stat-val">0</span><span class="stat-sub muted small">Dated today or later</span></div>
+      <div class="card stat"><span class="stat-label">Tasks To Do</span><span id="stOpen" class="stat-val">0</span><span class="stat-sub muted small">Not yet marked done</span></div>
+      <div class="card stat"><span class="stat-label">Volunteers</span><span id="stPeople" class="stat-val">0</span><span class="stat-sub muted small">People in your roster</span></div>
+      <div class="card stat"><span class="stat-label">Total Spend</span><span id="stSpend" class="stat-val">€0</span><span class="stat-sub muted small">Actual, all events</span></div>
+    </div>
+
+    <div class="card">
+      <h2>Next Event</h2>
+      <div id="nextEventBox" class="next-event">No event scheduled yet.</div>
+    </div>
+
+    <div class="card">
+      <h2>Recent Activity</h2>
+      <ul id="activityFeed" class="feed"><li class="muted">No recent activity.</li></ul>
+    </div>
+  </section>
+
+  <!-- EVENTS -->
+  <section id="tab-events" class="tab-panel">
+    <div class="card">
+      <div class="row-between">
+        <h2>Events</h2>
+        <button id="btnNewEvent" class="btn btn-primary">+ New Event</button>
+      </div>
+      <div id="eventList" class="event-grid"></div>
+    </div>
+  </section>
+
+  <!-- TASKS -->
+  <section id="tab-tasks" class="tab-panel">
+    <div class="card">
+      <div class="row-between">
+        <div>
+          <h2>Tasks &amp; Team Assignments</h2>
+          <p class="muted small">Pick an event, add tasks, assign volunteers. Rotation hints suggest people not in the last event — Pauline can always override.</p>
+        </div>
+        <select id="taskEventSelect" class="input"></select>
+      </div>
+      <div class="row-between tight">
+        <div style="display:flex;gap:8px;flex-wrap:wrap">
+          <button id="btnNewTask" class="btn btn-primary admin-only">+ Add Task</button>
+          <button id="btnSeedTasks" class="btn btn-outline admin-only" title="Pick which standard church tasks to add">Add from standard list…</button>
+        </div>
+        <button id="btnAutoFill" class="btn btn-outline admin-only" title="Auto-assign rotation picks to every unassigned task">Auto-fill rotation</button>
+      </div>
+    </div>
+
+    <!-- SUMMARY (who is doing what) -->
+    <div id="summaryCard" class="card summary-card" style="display:none">
+      <div class="row-between">
+        <div>
+          <h2 id="summaryTitle">Summary</h2>
+          <div id="summaryCounts" class="muted small"></div>
+        </div>
+        <div style="display:flex;gap:8px;flex-wrap:wrap">
+          <button id="btnCopyWhatsApp" class="btn btn-primary">Copy for WhatsApp</button>
+          <button id="btnExportExcel" class="btn btn-outline">Download Excel</button>
+          <button id="btnPrintSummary" class="btn btn-outline">Print</button>
+        </div>
+      </div>
+      <div id="summaryBody"></div>
+    </div>
+
+    <!-- EDITABLE CARDS -->
+    <div class="card">
+      <h2>Edit tasks</h2>
+      <p class="muted small">Use the cards below to assign people, mark done, or edit.</p>
+      <div id="taskBoard" class="task-board"></div>
+    </div>
+  </section>
+
+  <!-- PEOPLE -->
+  <section id="tab-people" class="tab-panel">
+    <div class="card">
+      <div class="row-between">
+        <div>
+          <h2>People &amp; Teams</h2>
+          <p class="muted small">Pastor Mathew and Sister Pauline are part of every team. Filter by team below.</p>
+        </div>
+        <div style="display:flex;gap:8px;flex-wrap:wrap">
+          <button id="btnAddTeam" class="btn btn-outline admin-only" title="Create a new team">+ Add Team</button>
+          <button id="btnLoadRoster" class="btn btn-outline admin-only" title="Add the NLC team members in one click">Load NLC Team</button>
+          <button id="btnNewPerson" class="btn btn-primary admin-only">+ Add Person</button>
+        </div>
+      </div>
+      <div id="peopleFilterBar" class="filter-bar"></div>
+      <div id="peopleList" class="people-grid"></div>
+    </div>
+  </section>
+
+  <!-- BUDGET -->
+  <section id="tab-budget" class="tab-panel">
+    <div class="card">
+      <div class="row-between">
+        <div>
+          <h2>Budget &amp; Expenses</h2>
+          <p class="muted small">Track planned vs actual spend per event.</p>
+        </div>
+        <select id="budgetEventSelect" class="input"></select>
+      </div>
+      <div class="budget-summary">
+        <div><span class="muted small">Planned</span><div id="sumPlanned">€0</div></div>
+        <div><span class="muted small">Actual</span><div id="sumActual">€0</div></div>
+        <div><span class="muted small">Remaining</span><div id="sumRemaining">€0</div></div>
+      </div>
+      <button id="btnNewExpense" class="btn btn-primary admin-only">+ Add Expense</button>
+      <table class="table">
+        <thead><tr><th>Item</th><th>Category</th><th>Planned</th><th>Actual</th><th>Paid by</th><th></th></tr></thead>
+        <tbody id="expenseRows"></tbody>
+      </table>
+    </div>
+  </section>
+
+</main>
+
+<footer class="footer">
+  <small>© New Life Church Dublin · Built with love for Pastor &amp; Pauline</small>
+</footer>
+
+<!-- MODAL -->
+<div id="modal" class="modal hidden">
+  <div class="modal-box">
+    <button class="modal-close" data-close>&times;</button>
+    <h3 id="modalTitle"></h3>
+    <form id="modalForm" class="modal-form"></form>
+  </div>
+</div>
+
+<!-- SheetJS for .xlsx export (loaded eagerly so the export button works) -->
+<script src="https://cdn.sheetjs.com/xlsx-0.20.2/package/dist/xlsx.full.min.js"></script>
+<!-- Firebase SDK (modular, via CDN) -->
+<script type="module" src="app.js"></script>
+</body>
+</html>
