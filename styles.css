@@ -181,6 +181,11 @@ body{
 .modal-actions{display:flex; justify-content:flex-end; gap:8px; margin-top:8px}
 
 .footer{text-align:center; padding:20px; color:var(--muted)}
+.footer-sep{margin:0 6px; opacity:.6}
+.footer-link{
+  color:var(--nlc-green-dark); text-decoration:none; font-weight:600; font-size:12px;
+}
+.footer-link:hover{text-decoration:underline}
 
 .admin-only{display:none}
 body.is-admin .admin-only{display:inline-block}

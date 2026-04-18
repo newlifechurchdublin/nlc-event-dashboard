@@ -34,7 +34,7 @@
   <button class="tab-btn" data-tab="events">Events</button>
   <button class="tab-btn" data-tab="tasks">Tasks &amp; Teams</button>
   <button class="tab-btn" data-tab="people">People</button>
-  <button class="tab-btn" data-tab="budget">Budget</button>
+  <button class="tab-btn admin-only" data-tab="budget">Budget</button>
   <button class="tab-btn" data-tab="help">Help</button>
 </nav>
 
@@ -171,9 +171,10 @@
       <h3>1. Two modes — viewer and admin</h3>
       <p>Everyone on the team signs in with a <b>staff passcode</b> to view. Only the <b>admin</b> (Sister Pauline) can add, edit, and delete — she signs in separately using the admin passcode.</p>
       <ul>
-        <li>Staff sign-in lets you see events, tasks, people, and budget.</li>
-        <li>Admin sign-in shows <b>+ Add</b>, <b>Edit</b>, and <b>Delete</b> buttons across every tab.</li>
-        <li>Click <b>Sign out</b> in the top-right to lock the admin side again.</li>
+        <li>Staff sign-in lets you see events, tasks, and people.</li>
+        <li>Admin sign-in shows <b>+ Add</b>, <b>Edit</b>, and <b>Delete</b> buttons, and unlocks the <b>Budget</b> tab (finances are admin-only).</li>
+        <li>Click <b>Sign out</b> in the top-right — this locks both admin and the staff passcode on the device. The welcome screen reappears.</li>
+        <li>Any team member can click <b>Lock dashboard</b> in the footer to clear the staff passcode on their device (useful on shared phones/laptops).</li>
       </ul>
 
       <h3>2. Overview tab</h3>
@@ -207,8 +208,8 @@
         <li>The coloured number on each person's card shows their load in the selected event (green = light, red = busy).</li>
       </ul>
 
-      <h3>6. Budget tab</h3>
-      <p>Pick an event, add expenses (item, category, planned €, actual €, paid by). The three totals at the top show planned vs actual vs remaining. Click <b>Download Excel</b> for a full report.</p>
+      <h3>6. Budget tab <span class="muted small">(admin-only)</span></h3>
+      <p>Only visible when signed in as admin. Pick an event, add expenses (item, category, planned €, actual €, paid by). The three totals at the top show planned vs actual vs remaining. Click <b>Download Excel</b> for a full report.</p>
 
       <h3>7. On your phone</h3>
       <p>The dashboard works in any mobile browser. Handy during an event for ticking tasks done, adding last-minute expenses, or checking who is doing what.</p>
@@ -222,6 +223,8 @@
 
 <footer class="footer">
   <small>© New Life Church Dublin · Built with love for Pastor &amp; Pauline</small>
+  <small class="footer-sep">·</small>
+  <a href="#" id="btnLockDashboard" class="footer-link" title="Clear the staff passcode on this device and return to the welcome screen">Lock dashboard</a>
 </footer>
 
 <!-- VIEWER GATE (staff passcode) -->

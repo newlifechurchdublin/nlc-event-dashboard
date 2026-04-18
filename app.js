@@ -8,8 +8,16 @@ import { firebaseConfig, ADMIN_PASSCODE, VIEWER_PASSCODE, USE_LOCAL_DEMO } from 
 // ---------- Staff viewer gate ----------
 // Blocks the app until the visitor enters the shared staff passcode.
 // Accepted sessions are remembered in localStorage (per device) if they tick "Remember".
+const VIEWER_KEY = "nlc_viewer_ok_v1";
+
+// Fully lock the dashboard: clear viewer storage and reload to the gate.
+function lockDashboard(){
+  localStorage.removeItem(VIEWER_KEY);
+  sessionStorage.removeItem(VIEWER_KEY);
+  location.reload();
+}
+
 (function viewerGate(){
-  const KEY = "nlc_viewer_ok_v1";
   const gate  = document.getElementById("viewerGate");
   const form  = document.getElementById("gateForm");
   const input = document.getElementById("gateInput");
@@ -17,7 +25,7 @@ import { firebaseConfig, ADMIN_PASSCODE, VIEWER_PASSCODE, USE_LOCAL_DEMO } from 
   const remember = document.getElementById("gateRemember");
   if (!gate || !form) return;
 
-  const already = localStorage.getItem(KEY) === "yes" || sessionStorage.getItem(KEY) === "yes";
+  const already = localStorage.getItem(VIEWER_KEY) === "yes" || sessionStorage.getItem(VIEWER_KEY) === "yes";
   if (already){ gate.classList.add("hidden"); return; }
 
   gate.classList.remove("hidden");
@@ -27,7 +35,7 @@ import { firebaseConfig, ADMIN_PASSCODE, VIEWER_PASSCODE, USE_LOCAL_DEMO } from 
   form.addEventListener("submit",(e)=>{
     e.preventDefault();
     if (input.value === VIEWER_PASSCODE){
-      (remember.checked ? localStorage : sessionStorage).setItem(KEY, "yes");
+      (remember.checked ? localStorage : sessionStorage).setItem(VIEWER_KEY, "yes");
       gate.classList.add("hidden");
       document.body.classList.remove("gated");
     } else {
@@ -208,6 +216,14 @@ function bindUI() {
   // Clear activity (admin-only)
   document.getElementById("btnClearActivity").addEventListener("click", clearActivity);
 
+  // Lock dashboard — anyone on the device can clear the staff passcode
+  document.getElementById("btnLockDashboard").addEventListener("click", (e)=>{
+    e.preventDefault();
+    if (confirm("Lock the dashboard on this device? You'll need the staff passcode to get back in.")) {
+      lockDashboard();
+    }
+  });
+
   // Modal close
   document.getElementById("modal").addEventListener("click",(e)=>{
     if (e.target.dataset.close !== undefined || e.target.id === "modal") closeModal();
@@ -219,12 +235,15 @@ function toggleAdmin(){
   const badge = document.getElementById("adminBadge");
   const hint  = document.getElementById("authHint");
   if (state.isAdmin){
+    // Full sign-out: clear admin state AND the staff passcode, then reload
+    // so the welcome gate appears again. Keeps the dashboard properly locked
+    // when admin steps away from a shared device.
     state.isAdmin = false;
     document.body.classList.remove("is-admin");
     badge.classList.add("hidden");
     btn.textContent = "Sign in as Admin";
     hint.textContent = "View-only · Admin can edit";
-    render();
+    lockDashboard();
     return;
   }
   const code = prompt("Enter admin passcode:");
