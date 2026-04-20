@@ -337,6 +337,7 @@ function renderEvents(){
         <div class="actions">
           <button class="btn btn-outline" data-ev-open="${e.id}">Open tasks</button>
           <button class="btn btn-ghost admin-only" data-ev-edit="${e.id}">Edit</button>
+          <button class="btn btn-ghost admin-only" data-ev-dup="${e.id}" title="Create a new event using this event's task list">Duplicate</button>
           <button class="btn btn-danger admin-only" data-ev-del="${e.id}">Delete</button>
         </div>
       </div>`;
@@ -349,6 +350,7 @@ function renderEvents(){
     renderTasks();
   }));
   host.querySelectorAll("[data-ev-edit]").forEach(b=>b.addEventListener("click",()=>openEventModal(b.dataset.evEdit)));
+  host.querySelectorAll("[data-ev-dup]").forEach(b=>b.addEventListener("click",()=>openDuplicateEventModal(b.dataset.evDup)));
   host.querySelectorAll("[data-ev-del]").forEach(b=>b.addEventListener("click",()=>deleteEvent(b.dataset.evDel)));
 }
 
@@ -800,6 +802,65 @@ async function deleteEvent(id){
   state.expenses = state.expenses.filter(x=>x.eventId!==id);
   logActivity(`Deleted event "${e.name}"`);
   render(); closeModal();
+}
+
+// Copy a past event's task list to a new event. Great for recurring things
+// like the Sunday service, couples meeting, or annual Christmas programme.
+// Expenses are not copied — amounts vary too much to reuse safely.
+function openDuplicateEventModal(id){
+  if (!requireAdmin()) return;
+  const src = state.events.find(e=>e.id===id);
+  if (!src) return;
+  const srcTasks = state.tasks.filter(t=>t.eventId===id);
+  const n = srcTasks.length;
+  openModal(`Duplicate "${src.name}"`, `
+    <p class="muted small">A new event will be created with the same ${n} task${n===1?"":"s"}. Expenses are not copied — please re-enter them on the new event.</p>
+    <label>New event name</label>
+    <input class="input" name="name" value="${escapeAttr(src.name + " (copy)")}" required />
+    <div class="row">
+      <div><label>New date</label><input class="input" type="date" name="date" required /></div>
+      <div><label>Location</label><input class="input" name="location" value="${escapeAttr(src.location||"Church")}" /></div>
+    </div>
+    <label>Description</label>
+    <textarea class="input" name="description" rows="2">${escapeHtml(src.description||"")}</textarea>
+    <label class="check-row" style="margin-top:6px">
+      <input type="checkbox" name="copyAssignments" />
+      <span>Also copy volunteer assignments from the original event</span>
+    </label>
+    <div class="modal-actions">
+      <button type="button" class="btn btn-ghost" data-close>Cancel</button>
+      <button class="btn btn-primary">Create duplicate</button>
+    </div>
+  `, async (data)=>{
+    const newEvent = {
+      name: data.name,
+      date: data.date,
+      location: data.location || "Church",
+      description: data.description || "",
+    };
+    const newId = await storage.add("events", newEvent);
+    localPush("events", {id:newId, ...newEvent});
+
+    const keepAssignments = data.copyAssignments === "on";
+    for (const t of srcTasks){
+      const newTask = {
+        title: t.title,
+        category: t.category || "General",
+        notes: t.notes || "",
+        hours: Number(t.hours) || 0,
+        eventId: newId,
+        done: false,
+        assigned: keepAssignments ? [...(t.assigned||[])] : [],
+      };
+      const tid = await storage.add("tasks", newTask);
+      localPush("tasks", {id:tid, ...newTask});
+    }
+
+    state.selectedEventId = newId;
+    state.selectedBudgetEventId = newId;
+    logActivity(`Duplicated "${src.name}" as "${data.name}" (${n} task${n===1?"":"s"}${keepAssignments?", assignments copied":""})`);
+    render();
+  });
 }
 
 function openTaskModal(id){
